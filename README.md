@@ -1,6 +1,6 @@
 # Twenty CRM ↔ Excel Two-Way Sync
 
-A Python script that synchronises **Companies** and **People** between your self-hosted [Twenty CRM](https://twenty.com) instance and a local `.xlsx` Excel workbook, supporting **two-way sync** with configurable conflict resolution.
+A Python script that synchronizes **Companies** and **People** between your self-hosted [Twenty CRM](https://twenty.com) instance and a local `.xlsx` Excel workbook, supporting **two-way sync** with configurable conflict resolution.
 
 ---
 
@@ -25,7 +25,9 @@ A Python script that synchronises **Companies** and **People** between your self
 
 ```bash
 cd scripts/twenty_excel_sync
-pip install -r requirements.txt
+python -m venv .venv
+source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+python -m pip install -r requirements.txt
 ```
 
 ### 2. Configure
@@ -34,7 +36,7 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Edit `.env` and set at minimum:
+- `TWENTY_API_URL` – your CRM base URL (e.g. `https://your-domain.example` for production, or `http://localhost:3000` for local development only)
 
 - `TWENTY_API_URL` – your CRM base URL (e.g. `http://localhost:3000`)
 - `TWENTY_API_KEY` – generate one in **Settings → APIs & Webhooks**
@@ -116,7 +118,7 @@ twenty_excel_sync/
 
 | Variable | Default | Description |
 |---|---|---|
-| `TWENTY_API_URL` | `http://localhost:3000` | CRM base URL |
+| `EXCEL_FILE_PATH` | `./twenty_crm_data.xlsx` | Path to the workbook (created automatically if missing) |
 | `TWENTY_API_KEY` | *(required)* | Bearer token |
 | `EXCEL_FILE_PATH` | `./twenty_crm_data.xlsx` | Path to the workbook |
 | `CONFLICT_STRATEGY` | `newest_wins` | Conflict resolution mode |
@@ -152,9 +154,8 @@ The script will automatically create a new Excel sheet and sync it.
 
 ### Windows Task Scheduler
 
-Create a basic task that runs:
-
-```
+```powershell
+python "C:\\path\\to\\twenty_excel_sync\\main.py" sync
 python C:\path\to\twenty_excel_sync\main.py sync
 ```
 

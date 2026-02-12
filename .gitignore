@@ -13,6 +13,7 @@ venv/
 
 # Sync runtime files
 .sync_state.json
+.linkedin_token.json
 *.xlsx
 
 # OS

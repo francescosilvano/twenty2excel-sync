@@ -63,7 +63,7 @@ class TwentyClient:
         resp = self.session.request(method, url, **kwargs)
         if resp.status_code == 429:
             retry_after = float(resp.headers.get("Retry-After", 5))
-            logger.warning("Rate-limited – sleeping %.1fs", retry_after)
+            logger.debug("Rate-limited, retrying in %.1fs", retry_after)
             time.sleep(retry_after)
             resp = self.session.request(method, url, **kwargs)
         if not resp.ok:

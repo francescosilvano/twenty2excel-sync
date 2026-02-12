@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Twenty CRM ↔ Excel two-way sync – CLI entry point.
+Twenty CRM ↔ Excel two-way sync + LinkedIn integration – CLI entry point.
 
 Usage
 ─────
@@ -18,6 +18,11 @@ Usage
 
   # Health-check your CRM connection
   python main.py health
+
+  # LinkedIn integration
+  python main.py linkedin-auth       # Authenticate with LinkedIn (opens browser)
+  python main.py linkedin-sync       # Pull connections into CRM + Excel
+  python main.py linkedin-preview    # Preview data without writing (dry run)
 """
 
 from __future__ import annotations
@@ -109,8 +114,65 @@ def cmd_schedule(engine: SyncEngine) -> None:
 
 def _print_stats(stats: dict) -> None:
     for obj_key, counters in stats.items():
-        parts = "  ".join(f"{k}={v}" for k, v in counters.items())
-        logger.info("  %s: %s", obj_key, parts)
+        if isinstance(counters, dict):
+            parts = "  ".join(f"{k}={v}" for k, v in counters.items())
+            logger.info("  %s: %s", obj_key, parts)
+        else:
+            logger.info("  %s: %s", obj_key, counters)
+
+
+# ── LinkedIn commands ────────────────────────────────────────────────
+
+
+def cmd_linkedin_auth() -> None:
+    from config import LINKEDIN_ACCESS_TOKEN
+    from linkedin_oauth import authenticate, save_manual_token, get_access_token
+    logger.info("── LINKEDIN AUTH ──")
+
+    # If token is already in .env, just validate and confirm
+    if LINKEDIN_ACCESS_TOKEN:
+        logger.info("Found LINKEDIN_ACCESS_TOKEN in .env ✓")
+        logger.info("Token: %s…%s", LINKEDIN_ACCESS_TOKEN[:8], LINKEDIN_ACCESS_TOKEN[-4:])
+        return
+
+    print("\nNo LINKEDIN_ACCESS_TOKEN found in .env.")
+    print("Options:")
+    print("  1) Paste it into your .env file as LINKEDIN_ACCESS_TOKEN=<token>")
+    print("  2) Run the full browser-based OAuth flow")
+    choice = input("\nEnter 1 or 2: ").strip()
+
+    if choice == "1":
+        print("Add your token to .env and re-run this command.")
+    else:
+        authenticate()
+
+
+def cmd_linkedin_sync(client: TwentyClient) -> None:
+    from linkedin_sync import LinkedInSync
+    logger.info("── LINKEDIN → CRM SYNC ──")
+
+    print("\nWhat do you want to sync?")
+    print("  1) People + Companies")
+    print("  2) People only")
+    print("  3) Companies only")
+    choice = input("\nEnter 1, 2 or 3 [1]: ").strip() or "1"
+
+    scope = {"1": "both", "2": "people", "3": "companies"}.get(choice, "both")
+    logger.info("Scope: %s", scope)
+
+    syncer = LinkedInSync(twenty=client)
+    syncer.sync(dry_run=False, scope=scope)
+
+
+def cmd_linkedin_preview() -> None:
+    from linkedin_client import LinkedInClient
+    logger.info("── LINKEDIN PREVIEW (dry run) ──")
+    li = LinkedInClient()
+    data = li.get_all_domains()
+    for domain, records in data.items():
+        logger.info("  %s: %d records", domain, len(records))
+        for rec in records[:3]:
+            logger.info("    %s", rec)
 
 
 # ── main ─────────────────────────────────────────────────────────────
@@ -124,7 +186,10 @@ def main() -> None:
         "command",
         nargs="?",
         default="sync",
-        choices=["sync", "pull", "push", "schedule", "health"],
+        choices=[
+            "sync", "pull", "push", "schedule", "health",
+            "linkedin-auth", "linkedin-sync", "linkedin-preview",
+        ],
         help="Action to perform (default: sync)",
     )
     parser.add_argument(
@@ -146,6 +211,9 @@ def main() -> None:
         "push": lambda: cmd_push(engine),
         "sync": lambda: cmd_sync(engine),
         "schedule": lambda: cmd_schedule(engine),
+        "linkedin-auth": lambda: cmd_linkedin_auth(),
+        "linkedin-sync": lambda: cmd_linkedin_sync(client),
+        "linkedin-preview": lambda: cmd_linkedin_preview(),
     }
     commands[args.command]()
 

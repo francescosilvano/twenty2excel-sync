@@ -69,3 +69,24 @@ CONFLICT_STRATEGY = os.getenv("CONFLICT_STRATEGY", "newest_wins")
 
 # ── Scheduler ────────────────────────────────────────────────────────
 SYNC_INTERVAL_MINUTES = int(os.getenv("SYNC_INTERVAL_MINUTES", "30"))
+
+# ── LinkedIn OAuth / API ─────────────────────────────────────────────
+LINKEDIN_CLIENT_ID = os.getenv("LINKEDIN_CLIENT_ID", "")
+LINKEDIN_CLIENT_SECRET = os.getenv("LINKEDIN_CLIENT_SECRET", "")
+LINKEDIN_REDIRECT_URI = os.getenv(
+    "LINKEDIN_REDIRECT_URI", "http://localhost:8787/callback"
+)
+LINKEDIN_SCOPE = os.getenv(
+    "LINKEDIN_SCOPE", "r_dma_portability_self_serve"
+)
+LINKEDIN_TOKEN_PATH = os.getenv(
+    "LINKEDIN_TOKEN_PATH",
+    str(Path(__file__).resolve().parent / ".linkedin_token.json"),
+)
+# Access token – paste from LinkedIn's OAuth Token Generator Tool
+LINKEDIN_ACCESS_TOKEN = os.getenv("LINKEDIN_ACCESS_TOKEN", "")
+# Snapshot domains to pull (comma-separated).
+# Common: PROFILE, CONNECTIONS, POSITIONS, EDUCATION, SKILLS
+LINKEDIN_SNAPSHOT_DOMAINS = os.getenv(
+    "LINKEDIN_SNAPSHOT_DOMAINS", "PROFILE,CONNECTIONS"
+).split(",")

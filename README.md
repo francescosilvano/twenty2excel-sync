@@ -150,12 +150,6 @@ To fetch data from LinkedIn, first set up OAuth authentication by running `pytho
 
 ---
 
-## Acknowledgments
-
-This project is built to integrate with [Twenty CRM](https://github.com/twentyhq/twenty), an open-source CRM platform developed by the Twenty team. I acknowledge and thank the Twenty community for their contributions to the open-source ecosystem.
-
----
-
 ## Scheduling with Cron (Linux) or Task Scheduler (Windows)
 
 ### Linux / WSL
@@ -176,3 +170,7 @@ Trigger: every 30 minutes. Alternatively, use the built-in scheduler:
 ```bash
 python main.py schedule
 ```
+
+## Acknowledgments
+
+This project is built to integrate with [Twenty CRM](https://github.com/twentyhq/twenty), an open-source CRM platform developed by the Twenty team. I acknowledge and thank the Twenty community for their contributions to the open-source ecosystem.

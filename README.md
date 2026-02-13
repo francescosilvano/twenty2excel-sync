@@ -146,7 +146,28 @@ The script will automatically create a new Excel sheet and sync it.
 
 ## LinkedIn Data Fetching
 
-To fetch data from LinkedIn, first set up OAuth authentication by running `python linkedin_oauth.py` to obtain access tokens. Configure your LinkedIn app credentials in the `.env` file. Then, use `python linkedin_sync.py` to fetch and integrate LinkedIn data with your CRM or Excel sheets.
+This feature allows you to fetch your LinkedIn profile data using LinkedIn's Member Data Portability API and integrate it with your CRM or Excel sheets.
+
+### Prerequisites
+
+1. **Create a LinkedIn App**: Go to [LinkedIn Developers](https://www.linkedin.com/developers/apps) and create a new app. Select the "Member Data Portability (Member) Default Company" page template.
+
+2. **Request API Access**: In your app settings, request access to the "Member Data Portability API (Member)". This may take some time for approval.
+
+3. **Configure Environment Variables**: Add the following to your `.env` file:
+   - `LINKEDIN_CLIENT_ID`: Your LinkedIn app's client ID
+   - `LINKEDIN_CLIENT_SECRET`: Your LinkedIn app's client secret
+   - `LINKEDIN_REDIRECT_URI`: Callback URL (default: `http://localhost:8787/callback`)
+   - `LINKEDIN_SCOPE`: API scope (default: `r_dma_portability_self_serve`)
+   - `LINKEDIN_SNAPSHOT_DOMAINS`: Comma-separated list of data domains to fetch (e.g., `PROFILE,CONNECTIONS,POSITIONS,EDUCATION,SKILLS`)
+
+### Steps
+
+1. **Authenticate**: Run `python main.py linkedin-auth` to perform OAuth authentication and obtain an access token. This will open a browser for you to log in and authorize the app.
+
+2. **Preview Data**: Optionally, run `python main.py linkedin-preview` to see what data is available without syncing.
+
+3. **Sync Data**: Run `python main.py linkedin-sync` to fetch the LinkedIn data and integrate it with your CRM or Excel sheets. The data will be processed according to your configured snapshot domains.
 
 ---
 

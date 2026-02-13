@@ -18,7 +18,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.worksheet.worksheet import Worksheet
 
-from config import EXCEL_FILE_PATH, SYNC_OBJECTS
+from .config import EXCEL_FILE_PATH, SYNC_OBJECTS
 
 logger = logging.getLogger(__name__)
 

@@ -15,8 +15,8 @@ from typing import Any
 
 import requests
 
-from config import LINKEDIN_SNAPSHOT_DOMAINS, API_RATE_LIMIT_DELAY
-from linkedin_oauth import get_access_token
+from .config import LINKEDIN_SNAPSHOT_DOMAINS, API_RATE_LIMIT_DELAY
+from .linkedin_oauth import get_access_token
 
 logger = logging.getLogger(__name__)
 

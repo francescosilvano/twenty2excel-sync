@@ -22,7 +22,7 @@ from urllib.parse import urlencode, urlparse, parse_qs
 
 import requests
 
-from config import (
+from .config import (
     LINKEDIN_CLIENT_ID,
     LINKEDIN_CLIENT_SECRET,
     LINKEDIN_REDIRECT_URI,
@@ -172,7 +172,7 @@ def authenticate() -> dict:
 def get_access_token() -> str:
     """Return a valid access token or raise."""
     # 1. Check .env first
-    from config import LINKEDIN_ACCESS_TOKEN
+    from .config import LINKEDIN_ACCESS_TOKEN
     if LINKEDIN_ACCESS_TOKEN:
         return LINKEDIN_ACCESS_TOKEN
     # 2. Fall back to saved token file

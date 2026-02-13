@@ -34,9 +34,9 @@ import sys
 import time
 from datetime import datetime
 
-from config import SYNC_INTERVAL_MINUTES
-from twenty_client import TwentyClient
-from sync_engine import SyncEngine
+from scripts.config import SYNC_INTERVAL_MINUTES
+from scripts.twenty_client import TwentyClient
+from scripts.sync_engine import SyncEngine
 
 # ── logging setup ────────────────────────────────────────────────────
 logging.basicConfig(
@@ -125,8 +125,8 @@ def _print_stats(stats: dict) -> None:
 
 
 def cmd_linkedin_auth() -> None:
-    from config import LINKEDIN_ACCESS_TOKEN
-    from linkedin_oauth import authenticate, save_manual_token, get_access_token
+    from scripts.config import LINKEDIN_ACCESS_TOKEN
+    from scripts.linkedin_oauth import authenticate, save_manual_token, get_access_token
     logger.info("── LINKEDIN AUTH ──")
 
     # If token is already in .env, just validate and confirm
@@ -148,7 +148,7 @@ def cmd_linkedin_auth() -> None:
 
 
 def cmd_linkedin_sync(client: TwentyClient) -> None:
-    from linkedin_sync import LinkedInSync
+    from scripts.linkedin_sync import LinkedInSync
     logger.info("── LINKEDIN → CRM SYNC ──")
 
     print("\nWhat do you want to sync?")
@@ -165,7 +165,7 @@ def cmd_linkedin_sync(client: TwentyClient) -> None:
 
 
 def cmd_linkedin_preview() -> None:
-    from linkedin_client import LinkedInClient
+    from scripts.linkedin_client import LinkedInClient
     logger.info("── LINKEDIN PREVIEW (dry run) ──")
     li = LinkedInClient()
     data = li.get_all_domains()

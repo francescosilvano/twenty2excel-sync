@@ -13,7 +13,7 @@ from typing import Any
 
 import requests
 
-from config import TWENTY_API_URL, TWENTY_API_KEY, API_RATE_LIMIT_DELAY, BATCH_SIZE
+from .config import TWENTY_API_URL, TWENTY_API_KEY, API_RATE_LIMIT_DELAY, BATCH_SIZE
 
 logger = logging.getLogger(__name__)
 

@@ -20,14 +20,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from config import (
+from .config import (
     CONFLICT_STRATEGY,
     SYNC_OBJECTS,
     SYNC_STATE_PATH,
     EXCEL_FILE_PATH,
 )
-from twenty_client import TwentyClient
-from excel_handler import (
+from .twenty_client import TwentyClient
+from .excel_handler import (
     read_excel,
     write_excel,
     upsert_excel_rows,

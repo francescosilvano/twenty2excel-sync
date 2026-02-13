@@ -15,9 +15,9 @@ import time
 from contextlib import contextmanager
 from typing import Any, Generator
 
-from twenty_client import TwentyClient
-from linkedin_client import LinkedInClient
-from excel_handler import upsert_excel_rows
+from .twenty_client import TwentyClient
+from .linkedin_client import LinkedInClient
+from .excel_handler import upsert_excel_rows
 
 logger = logging.getLogger(__name__)
 

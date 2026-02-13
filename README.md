@@ -103,10 +103,14 @@ into your spreadsheet.
 ```
 twenty_excel_sync/
 ├── main.py            # CLI entry point & scheduler
-├── config.py          # Settings loader (.env + defaults)
-├── twenty_client.py   # Twenty CRM REST API client
-├── excel_handler.py   # Excel read / write / upsert
-├── sync_engine.py     # Two-way diff & conflict resolution
+├── scripts/
+│   ├── config.py          # Settings loader (.env + defaults)
+│   ├── twenty_client.py   # Twenty CRM REST API client
+│   ├── excel_handler.py   # Excel read / write / upsert
+│   ├── sync_engine.py     # Two-way diff & conflict resolution
+│   ├── linkedin_client.py # LinkedIn API client
+│   ├── linkedin_oauth.py  # LinkedIn OAuth handler
+│   └── linkedin_sync.py   # LinkedIn data sync
 ├── requirements.txt   # Python dependencies
 ├── .env.example       # Environment variable template
 └── README.md          # ← you are here

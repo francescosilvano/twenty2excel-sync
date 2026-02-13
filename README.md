@@ -144,6 +144,12 @@ The script will automatically create a new Excel sheet and sync it.
 
 ---
 
+## LinkedIn Data Fetching
+
+To fetch data from LinkedIn, first set up OAuth authentication by running `python linkedin_oauth.py` to obtain access tokens. Configure your LinkedIn app credentials in the `.env` file. Then, use `python linkedin_sync.py` to fetch and integrate LinkedIn data with your CRM or Excel sheets.
+
+---
+
 ## Scheduling with Cron (Linux) or Task Scheduler (Windows)
 
 ### Linux / WSL
